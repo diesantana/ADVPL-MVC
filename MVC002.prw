@@ -26,29 +26,19 @@ Static Function menuDef()
 Return aRotina
 
 Static Function modelDef()
-	// Cria as estruturas a serem usadas no Modelo de Dados
-	Local oStruZA1 := FWFormStruct( 1, 'ZA1' )
-	Local oStruZA2 := FWFormStruct( 1, 'ZA2' )
+	Local oStruZZB := FWFormStruct( 1, "ZZB" )
+	Local oStruZZA := FWFormStruct( 1, "ZZA" )
 	Local oModel 
 	
-	// Cria o objeto do Modelo de Dados
-	oModel := MPFormModel():New( 'COMP021M' )
+	oModel := MPFormModel():New( "ALBUNS_MVC" )
+	oModel:AddFields( "ZZBMASTER", /*cOwner*/, oStruZZB )
+	oModel:AddGrid( "ZZADETAIL", "ZZBMASTER", oStruZZA )
 	
-	// Adiciona ao modelo um componente de formulário
-	oModel:AddFields( 'ZA1MASTER', /*cOwner*/, oStruZA1 )
+	oModel:SetRelation( "ZZADETAIL", ;
+		{ { "ZZA_FILIAL", "xFilial( 'ZZA' )" }, { "ZZA_CODALB", "ZZB_COD" } }, ZZA->( IndexKey( 1 ) ) )
 	
-	// Adiciona ao modelo uma componente de grid
-	oModel:AddGrid( 'ZA2DETAIL', 'ZA1MASTER', oStruZA2 )
-	
-	// Faz relacionamento entre os componentes do model
-	oModel:SetRelation( 'ZA2DETAIL', { { 'ZA2_FILIAL', 'xFilial( "ZA2" )' }, { 'ZA2_MUSICA', 'ZA1_MUSICA' } }, ZA2->( IndexKey( 1 ) ) )
-	
-	// Adiciona a descrição do Modelo de Dados
-	oModel:SetDescription( 'Modelo de Musicas' )
-	
-	// Adiciona a descrição dos Componentes do Modelo de Dados
-	oModel:GetModel( 'ZA1MASTER' ):SetDescription( 'Dados da Musica' )
-	oModel:GetModel( 'ZA2DETAIL' ):SetDescription( 'Dados do Autor Da Musica' )
-	
-// Retorna o Modelo de dados
+	oModel:SetDescription( "Modelo de Álbuns" )
+	oModel:GetModel( "ZZBMASTER" ):SetDescription( "Dados do álbum" )
+	oModel:GetModel( "ZZADETAIL" ):SetDescription( "Dados das músicas" )
 Return oModel
+
