@@ -36,9 +36,29 @@ Static Function modelDef()
 	
 	oModel:SetRelation( "ZZADETAIL", ;
 		{ { "ZZA_FILIAL", "xFilial( 'ZZA' )" }, { "ZZA_CODALB", "ZZB_COD" } }, ZZA->( IndexKey( 1 ) ) )
-	
+	oModel:setPrimaryKey({"ZZB_FILIAL", "ZZB_COD"})
+
 	oModel:SetDescription( "Modelo de Álbuns" )
 	oModel:GetModel( "ZZBMASTER" ):SetDescription( "Dados do álbum" )
 	oModel:GetModel( "ZZADETAIL" ):SetDescription( "Dados das músicas" )
 Return oModel
+
+Static Function viewDef()
+	Local oStruZZB := FWFormStruct( 2, "ZZB" )
+	Local oStruZZA := FWFormStruct( 2, "ZZA" )
+	Local oModel := fwLoadModel("MVC002")
+	Local oView := fwFormView():new()
+
+	oView:setModel(oModel)
+	oView:addField("VIEW_ZZB", oStruZZB, "ZZBMASTER")
+	oView:addGrid("VIEW_ZZA", oStruZZA, "ZZADETAIL")
+	oView:CreateHorizontalBox( 'SUPERIOR', 40 )
+	oView:CreateHorizontalBox( 'INFERIOR', 60 )
+	oView:SetOwnerView( 'VIEW_ZZB', 'SUPERIOR' )
+	oView:SetOwnerView( 'VIEW_ZZA', 'INFERIOR' )
+
+	oView:EnableTitleView("VIEW_ZZB", "Dados do Álbum")
+	oView:EnableTitleView("VIEW_ZZA", "Dados das Músicas")
+
+Return oView
 
