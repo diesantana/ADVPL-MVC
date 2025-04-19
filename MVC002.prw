@@ -46,6 +46,9 @@ Return oModel
 Static Function viewDef()
 	Local oStruZZB := FWFormStruct( 2, "ZZB" )
 	Local oStruZZA := FWFormStruct( 2, "ZZA" )
+	oStruZZB:RemoveField('ZZB_OK')
+	oStruZZB:RemoveField('ZZB_USER')
+	
 	Local oModel := fwLoadModel("MVC002")
 	Local oView := fwFormView():new()
 
