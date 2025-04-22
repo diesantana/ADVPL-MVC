@@ -32,6 +32,9 @@ Static Function modelDef()
 	oModel := MPFormModel():New( "ALBUNS_MVC" )
 	oModel:AddFields( "ZZBMASTER", /*cOwner*/, oStruZZB )
 	oModel:AddGrid( "ZZADETAIL", "ZZBMASTER", oStruZZA )
+
+	// Validação na abertura do modelo
+	oModel:setVldActivate({ |oModel| activateVld(oModel)})
 	
 	oModel:SetRelation( "ZZADETAIL", ;
 		{ { "ZZA_FILIAL", "xFilial( 'ZZA' )" }, { "ZZA_CODALB", "ZZB_COD" } }, ZZA->( IndexKey( 1 ) ) )
@@ -64,3 +67,23 @@ Static Function viewDef()
 
 Return oView
 
+/*/{Protheus.doc} activateVld
+	Valida se a data base do sistema esta correta
+	@type  Static Function
+	@author Diego Santana
+	@since 21/04/2025
+/*/
+Static Function activateVld(oModel)
+	Local lValid := .T.
+
+	If dDataBase != date()
+		lValid := .F. //Se e data corrente for diferente da data do sistema, retorna false.
+
+		// Exibe uma msg de erro e solução
+		Help(NIL, NIL, "activateVld", NIL, "Data do sistema é diferente da data atual",;
+		1, 0, NIL, NIL, NIL, NIL, NIL, {"Altere a data do sistema para prosseguir"})
+	EndIf
+	
+Return lValid
+
+ 
