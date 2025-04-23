@@ -35,6 +35,8 @@ Static Function modelDef()
 
 	// Validação na abertura do modelo
 	oModel:setVldActivate({ |oModel| activateVld(oModel)})
+	// Validação de linha duplicada
+	oModel:GetModel( "ZZADETAIL" ):setUniqueLine({"ZZA_FILIAL", "ZZA_NOME"})
 	
 	oModel:SetRelation( "ZZADETAIL", ;
 		{ { "ZZA_FILIAL", "xFilial( 'ZZA' )" }, { "ZZA_CODALB", "ZZB_COD" } }, ZZA->( IndexKey( 1 ) ) )
