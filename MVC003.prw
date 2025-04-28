@@ -59,6 +59,10 @@ Static Function viewDef()
 	oView:setModel(oModel)
 	oView:addField("VIEW_ZZB", oStruZZB, "ZZBMASTER")
 	oView:addGrid("VIEW_ZZA", oStruZZA, "ZZADETAIL")
+
+	// Define um autoincremento para o campo ZZA_NUM
+	oView:AddIncrementField( "VIEW_ZZA", "ZZA_NUM" )
+
 	oView:CreateHorizontalBox( 'SUPERIOR', 40 )
 	oView:CreateHorizontalBox( 'INFERIOR', 60 )
 	oView:SetOwnerView( 'VIEW_ZZB', 'SUPERIOR' )
