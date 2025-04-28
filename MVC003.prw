@@ -27,11 +27,12 @@ Return aRotina
 Static Function modelDef()
 	Local oStruZZB := FWFormStruct( 1, "ZZB" )
 	Local oStruZZA := FWFormStruct( 1, "ZZA" )
-	Local oModel 
+	Local oModel := MPFormModel():New( "ALBUNS_MVC" )
+	Local bPreValid := {|oModelGrid| preVld(oModelGrid)}
+	 
 	
-	oModel := MPFormModel():New( "ALBUNS_MVC" )
 	oModel:AddFields( "ZZBMASTER", /*cOwner*/, oStruZZB )
-	oModel:AddGrid( "ZZADETAIL", "ZZBMASTER", oStruZZA )
+	oModel:AddGrid( "ZZADETAIL", "ZZBMASTER", oStruZZA, bPreValid)
 
 	// Validação na abertura do modelo
 	oModel:setVldActivate({ |oModel| activateVld(oModel)})
@@ -93,3 +94,14 @@ Static Function activateVld(oModel)
 Return lValid
 
  
+ /*/{Protheus.doc} preVld
+	Exemplo de uma função de pré validação
+	@type  Static Function
+	@author Diego Santana
+	@since 28/04/2025
+ /*/
+ Static Function preVld(oModel)
+	Local lValid := .T.
+	msgAlert("Pré validação", "preVld")
+ Return lValid
+
